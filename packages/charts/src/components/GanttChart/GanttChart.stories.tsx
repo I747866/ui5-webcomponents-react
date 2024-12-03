@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
-import { dummyDataSet } from './examples/Dataset.js';
+import { dummyDataSet, ferrovieTier } from './examples/Dataset.js';
 import { GanttChart } from './GanttChart.js';
 
 const meta = {
@@ -19,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    dataset: dummyDataSet,
+    dataset: ferrovieTier,
     contractDuration: { dateStart: '2022-10-01T00:00:00.000Z', dateEnd: '2027-09-30T00:00:00.000Z' },
     showStatus: false,
     staticVerticalLinePosition: new Date().toISOString(),
