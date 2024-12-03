@@ -8,6 +8,8 @@ import type {
   OpenSubRowIndexes
 } from '../types/GanttChartTypes.js';
 
+const ONE_DAY = 24 * 60 * 60 * 1000; // milliseconds in one day
+
 /**
  * Function to count all rows in a dataset of Gantt chart rows, including nested details and sub-details.
  * It calculates the total number of rows based on the expanded rows and sub-rows determined by the provided open row and sub-row indexes.
@@ -91,7 +93,7 @@ export const countTaskDuration = (dateStart: string, dateEnd: string): number =>
   const start = new Date(dateStart);
   const end = new Date(dateEnd);
   const diffInMilliseconds = Math.abs(end.getTime() - start.getTime());
-  return diffInMilliseconds / (1000 * 60 * 60 * 24);
+  return diffInMilliseconds / ONE_DAY;
 };
 
 /**
@@ -106,7 +108,7 @@ export const getStartTime = (contractStartDate: string, taskStartDate: string): 
   const contractStart = new Date(contractStartDate);
   const taskStart = new Date(taskStartDate);
   const diffInMilliseconds = Math.abs(contractStart.getTime() - taskStart.getTime());
-  return diffInMilliseconds / (1000 * 60 * 60 * 24) - 1;
+  return diffInMilliseconds / ONE_DAY - 1;
 };
 
 /**

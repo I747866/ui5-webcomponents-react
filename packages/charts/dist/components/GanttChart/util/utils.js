@@ -1,4 +1,5 @@
 import { differenceInDays, endOfMonth, formatDistanceStrict, startOfMonth } from 'date-fns/fp';
+const ONE_DAY = 24 * 60 * 60 * 1000; // milliseconds in one day
 /**
  * Function to count all rows in a dataset of Gantt chart rows, including nested details and sub-details.
  * It calculates the total number of rows based on the expanded rows and sub-rows determined by the provided open row and sub-row indexes.
@@ -10,21 +11,21 @@ import { differenceInDays, endOfMonth, formatDistanceStrict, startOfMonth } from
  * @returns {number} - The total count of rows, including expanded rows and sub-rows.
  */
 export const countAllRows = (rows, openRowIndex, openSubRowIndexes) => {
-    let count = 0;
-    rows?.forEach((row, rowIndex) => {
+  let count = 0;
+  rows?.forEach((row, rowIndex) => {
+    count++;
+    if (row.subRows && openRowIndex.includes(rowIndex)) {
+      row.subRows.forEach((detail, detailIndex) => {
         count++;
-        if (row.subRows && openRowIndex.includes(rowIndex)) {
-            row.subRows.forEach((detail, detailIndex) => {
-                count++;
-                if (detail.subRows && openSubRowIndexes[`${rowIndex}-${detailIndex}`]) {
-                    detail.subRows.forEach(() => {
-                        count++;
-                    });
-                }
-            });
+        if (detail.subRows && openSubRowIndexes[`${rowIndex}-${detailIndex}`]) {
+          detail.subRows.forEach(() => {
+            count++;
+          });
         }
-    });
-    return count;
+      });
+    }
+  });
+  return count;
 };
 /**
  * Formats the duration between the start and end dates of a contract.
@@ -34,10 +35,10 @@ export const countAllRows = (rows, openRowIndex, openSubRowIndexes) => {
  * @returns {string | null} - A formatted string representing the strict difference between the start and end dates (e.g., "3 months", "1 year"), or `null` if the input is invalid.
  */
 export const formatContractDuration = (contractDuration) => {
-    if (!contractDuration || !contractDuration.dateStart || !contractDuration.dateEnd) {
-        return null;
-    }
-    return formatDistanceStrict(new Date(contractDuration.dateStart), new Date(contractDuration.dateEnd));
+  if (!contractDuration || !contractDuration.dateStart || !contractDuration.dateEnd) {
+    return null;
+  }
+  return formatDistanceStrict(new Date(contractDuration.dateStart), new Date(contractDuration.dateEnd));
 };
 /**
  * Calculates the total duration of a contract in days.
@@ -47,13 +48,13 @@ export const formatContractDuration = (contractDuration) => {
  * @returns {number | null} - The total number of days between the start and end dates, or `null` if the input is invalid.
  */
 export const calculateTotalDuration = (contractDuration) => {
-    const { dateStart, dateEnd } = contractDuration;
-    if (!dateStart || !dateEnd) {
-        return null;
-    }
-    const start = startOfMonth(new Date(dateStart));
-    const end = endOfMonth(new Date(dateEnd));
-    return differenceInDays(start, end);
+  const { dateStart, dateEnd } = contractDuration;
+  if (!dateStart || !dateEnd) {
+    return null;
+  }
+  const start = startOfMonth(new Date(dateStart));
+  const end = endOfMonth(new Date(dateEnd));
+  return differenceInDays(start, end);
 };
 /**
  * Counts the duration of a task in days.
@@ -64,10 +65,10 @@ export const calculateTotalDuration = (contractDuration) => {
  * @returns {number} - The duration of the task in days.
  */
 export const countTaskDuration = (dateStart, dateEnd) => {
-    const start = new Date(dateStart);
-    const end = new Date(dateEnd);
-    const diffInMilliseconds = Math.abs(end.getTime() - start.getTime());
-    return diffInMilliseconds / (1000 * 60 * 60 * 24);
+  const start = new Date(dateStart);
+  const end = new Date(dateEnd);
+  const diffInMilliseconds = Math.abs(end.getTime() - start.getTime());
+  return diffInMilliseconds / ONE_DAY;
 };
 /**
  * Calculates the start time of a task relative to the contract start date.
@@ -78,10 +79,10 @@ export const countTaskDuration = (dateStart, dateEnd) => {
  * @returns {number} - The start time of the task relative to the contract start date.
  */
 export const getStartTime = (contractStartDate, taskStartDate) => {
-    const contractStart = new Date(contractStartDate);
-    const taskStart = new Date(taskStartDate);
-    const diffInMilliseconds = Math.abs(contractStart.getTime() - taskStart.getTime());
-    return diffInMilliseconds / (1000 * 60 * 60 * 24) - 1;
+  const contractStart = new Date(contractStartDate);
+  const taskStart = new Date(taskStartDate);
+  const diffInMilliseconds = Math.abs(contractStart.getTime() - taskStart.getTime());
+  return diffInMilliseconds / ONE_DAY - 1;
 };
 /**
  * Function to flatten a dataset of Gantt chart rows, including nested subRows and theirs nested subRows.
@@ -94,27 +95,27 @@ export const getStartTime = (contractStartDate, taskStartDate) => {
  * @returns {IGanttChartRow[]} - The flattened dataset, including expanded rows and sub-rows.
  */
 export const flattenDataset = (dataset, openRowIndex, openSubRowIndexes) => {
-    const flattenedDataset = [];
-    const flattenSubDetails = (subRows) => {
-        subRows.forEach((subRow) => {
-            flattenedDataset.push(subRow);
-        });
-    };
-    const flattenDetails = (subRows, rowIndex) => {
-        subRows.forEach((subRow, detailIndex) => {
-            flattenedDataset.push(subRow);
-            if (subRow.subRows && openSubRowIndexes[`${rowIndex}-${detailIndex}`]) {
-                flattenSubDetails(subRow.subRows);
-            }
-        });
-    };
-    dataset?.forEach((row, rowIndex) => {
-        flattenedDataset.push(row);
-        if (row.subRows && openRowIndex.includes(rowIndex)) {
-            flattenDetails(row.subRows, rowIndex);
-        }
+  const flattenedDataset = [];
+  const flattenSubDetails = (subRows) => {
+    subRows.forEach((subRow) => {
+      flattenedDataset.push(subRow);
     });
-    return flattenedDataset;
+  };
+  const flattenDetails = (subRows, rowIndex) => {
+    subRows.forEach((subRow, detailIndex) => {
+      flattenedDataset.push(subRow);
+      if (subRow.subRows && openSubRowIndexes[`${rowIndex}-${detailIndex}`]) {
+        flattenSubDetails(subRow.subRows);
+      }
+    });
+  };
+  dataset?.forEach((row, rowIndex) => {
+    flattenedDataset.push(row);
+    if (row.subRows && openRowIndex.includes(rowIndex)) {
+      flattenDetails(row.subRows, rowIndex);
+    }
+  });
+  return flattenedDataset;
 };
 /**
  * Groups overlapping events on the Gantt chart.
@@ -131,68 +132,65 @@ export const flattenDataset = (dataset, openRowIndex, openSubRowIndexes) => {
  * @returns {IEventsGroup[]} - An array of grouped events.
  */
 export const groupOverlappingEvents = (events, contractStartDate, GanttStart, totalDuration, svgWidth, iconSize) => {
-    const eventsWithPositions = events.map((event) => {
-        const startTime = getStartTime(contractStartDate, event.date) + 1.3;
-        const positionPx = ((startTime - GanttStart) / totalDuration) * svgWidth;
-        return { ...event, startTime, positionPx };
-    });
-    const sortedEvents = eventsWithPositions.sort((a, b) => a.positionPx - b.positionPx);
-    const overlapThresholdPx = iconSize;
-    const groups = [];
-    let currentGroup = [];
-    let groupPositionPx = null;
-    sortedEvents.forEach((event) => {
-        if (event.shouldBeGrouped) {
-            if (currentGroup.length === 0) {
-                currentGroup.push(event);
-                groupPositionPx = event.positionPx;
-            }
-            else {
-                const distance = event.positionPx - groupPositionPx;
-                if (distance < overlapThresholdPx) {
-                    currentGroup.push(event);
-                }
-                else {
-                    groups.push({
-                        key: currentGroup.map((e) => e.id || e.date).join('-'),
-                        events: currentGroup,
-                        startTime: currentGroup[0].startTime,
-                        //@ts-expect-error - TS2339: Property 'positionPx' does not exist on type 'IGanttChartEvent'.
-                        positionPx: currentGroup[0].positionPx
-                    });
-                    currentGroup = [event];
-                    groupPositionPx = event.positionPx;
-                }
-            }
-        }
-        else {
-            if (currentGroup.length > 0) {
-                groups.push({
-                    key: currentGroup.map((e) => e.id || e.date).join('-'),
-                    events: currentGroup,
-                    startTime: currentGroup[0].startTime,
-                    //@ts-expect-error - TS2339: Property 'positionPx' does not exist on type 'IGanttChartEvent'.
-                    positionPx: currentGroup[0].positionPx
-                });
-                currentGroup = [];
-                groupPositionPx = null;
-            }
-            groups.push({
-                key: event.id || event.date,
-                events: [event],
-                startTime: event.startTime,
-                positionPx: event.positionPx
-            });
-        }
-    });
-    if (currentGroup.length > 0) {
-        groups.push({
+  const eventsWithPositions = events.map((event) => {
+    const startTime = getStartTime(contractStartDate, event.date) + 1.3;
+    const positionPx = ((startTime - GanttStart) / totalDuration) * svgWidth;
+    return { ...event, startTime, positionPx };
+  });
+  const sortedEvents = eventsWithPositions.sort((a, b) => a.positionPx - b.positionPx);
+  const overlapThresholdPx = iconSize;
+  const groups = [];
+  let currentGroup = [];
+  let groupPositionPx = null;
+  sortedEvents.forEach((event) => {
+    if (event.shouldBeGrouped) {
+      if (currentGroup.length === 0) {
+        currentGroup.push(event);
+        groupPositionPx = event.positionPx;
+      } else {
+        const distance = event.positionPx - groupPositionPx;
+        if (distance < overlapThresholdPx) {
+          currentGroup.push(event);
+        } else {
+          groups.push({
             key: currentGroup.map((e) => e.id || e.date).join('-'),
             events: currentGroup,
             startTime: currentGroup[0].startTime,
             //@ts-expect-error - TS2339: Property 'positionPx' does not exist on type 'IGanttChartEvent'.
             positionPx: currentGroup[0].positionPx
+          });
+          currentGroup = [event];
+          groupPositionPx = event.positionPx;
+        }
+      }
+    } else {
+      if (currentGroup.length > 0) {
+        groups.push({
+          key: currentGroup.map((e) => e.id || e.date).join('-'),
+          events: currentGroup,
+          startTime: currentGroup[0].startTime,
+          //@ts-expect-error - TS2339: Property 'positionPx' does not exist on type 'IGanttChartEvent'.
+          positionPx: currentGroup[0].positionPx
         });
+        currentGroup = [];
+        groupPositionPx = null;
+      }
+      groups.push({
+        key: event.id || event.date,
+        events: [event],
+        startTime: event.startTime,
+        positionPx: event.positionPx
+      });
     }
-    return groups;
+  });
+  if (currentGroup.length > 0) {
+    groups.push({
+      key: currentGroup.map((e) => e.id || e.date).join('-'),
+      events: currentGroup,
+      startTime: currentGroup[0].startTime,
+      //@ts-expect-error - TS2339: Property 'positionPx' does not exist on type 'IGanttChartEvent'.
+      positionPx: currentGroup[0].positionPx
+    });
+  }
+  return groups;
 };
