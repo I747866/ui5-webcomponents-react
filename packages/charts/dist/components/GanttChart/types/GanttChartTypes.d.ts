@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 export interface IGanttChartRow {
     id: string;
     label: string;
+    badge?: string;
     status?: string;
     details?: IGanttChartRow[];
     subDetails?: IGanttChartRow[];

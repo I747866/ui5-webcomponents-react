@@ -25,8 +25,8 @@ const GanttChartStaticVerticalLine: React.FC<GanttChartStaticVerticalLine> = ({ 
     >
       <div
         style={{
-          position: 'absolute',
           top: '-1px',
+          position: 'absolute',
           left: '-2.3px',
           width: `4px`,
           height: `4px`,

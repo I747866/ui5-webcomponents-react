@@ -39,6 +39,6 @@ const GanttChartBody = (props) => {
         showAnnotation && annotations != null ? (React.createElement(GanttChartLayer, { name: "GanttChartAnnotationLayer", isAnnotation: true, ignoreClick: true },
             React.createElement(GanttChartBodyCtx.Provider, { value: { chartBodyWidth: width } }, annotations))) : null,
         showVerticalLineOnHover && verticalLinePosition && (React.createElement(GanttChartHoverVerticalLine, { verticalLinePosition: verticalLinePosition })),
-        showStaticVerticalLine && (React.createElement(GanttChartStaticVerticalLine, { time: getStartTime(contractDuration.dateStart, staticVerticalLinePosition) + 0.5, totalDuration: totalDuration, GanttStart: 0 }))));
+        showStaticVerticalLine && (React.createElement(GanttChartStaticVerticalLine, { time: getStartTime(contractDuration.dateStart, staticVerticalLinePosition), totalDuration: totalDuration, GanttStart: 0 }))));
 };
 export { GanttChartBody };

@@ -1,4 +1,4 @@
-import { Icon } from '@ui5/webcomponents-react';
+import { Icon, Label, Text } from '@ui5/webcomponents-react';
 import React from 'react';
 import type { CSSProperties } from 'react';
 import type { ColumnDataType, IGanttChartRow, OpenRowIndex, OpenSubRowIndexes } from '../types/GanttChartTypes.js';
@@ -71,6 +71,39 @@ export const GanttChartRowLabels: React.FC<GanttChartRowLabelsProps> = (props) =
                 }}
               >
                 <span title={row[dataType]}>{row[dataType]}</span>
+                {dataType === 'label' && row['badge'] && (
+                  <Label
+                    style={{
+                      position: 'absolute',
+                      display: 'inline-flex',
+                      height: '9px',
+                      width: '20px',
+                      justifyContent: 'flex-end',
+                      alignItems: 'center',
+                      flexShrink: '0',
+                      borderRadius: '8px',
+                      backgroundColor: 'var(--Tile-sapTile_OverlayForegroundColor, #1D2D3E)',
+                      marginTop: '25px'
+                    }}
+                  >
+                    <Text
+                      style={{
+                        height: '9px',
+                        color: '#FFF',
+                        textAlign: 'right',
+                        fontFamily: '72',
+                        fontSize: '8px',
+                        fontStyle: 'normal',
+                        fontWeight: '700',
+                        lineHeight: 'normal',
+                        marginLeft: '4px',
+                        marginBottom: '22px'
+                      }}
+                    >
+                      {row['badge']}
+                    </Text>
+                  </Label>
+                )}
               </RowLabelItem>
               {row.subRows?.map((subRow, detailIndex) => {
                 const showCollapseIcon = subRow.subRows?.length > 0 && dataType === 'label';
@@ -95,6 +128,7 @@ export const GanttChartRowLabels: React.FC<GanttChartRowLabelsProps> = (props) =
                     >
                       <span title={subRow[dataType]}>{subRow[dataType]}</span>
                     </RowLabelItem>
+
                     {subRow.subRows?.map((subDetail, subDetailIndex) => (
                       <RowLabelItem
                         key={`subdetail-${subDetailIndex}`}

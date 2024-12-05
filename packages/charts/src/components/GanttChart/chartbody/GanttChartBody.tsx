@@ -41,6 +41,7 @@ export interface GanttChartBodyProps {
   shouldEventsBeGrouped: boolean;
 }
 
+
 const GanttChartBody = (props: GanttChartBodyProps) => {
   const {
     dataset,
@@ -138,7 +139,7 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
       )}
       {showStaticVerticalLine && (
         <GanttChartStaticVerticalLine
-          time={getStartTime(contractDuration.dateStart, staticVerticalLinePosition) + 0.5}
+          time={getStartTime(contractDuration.dateStart, staticVerticalLinePosition)}
           totalDuration={totalDuration}
           GanttStart={0}
         />

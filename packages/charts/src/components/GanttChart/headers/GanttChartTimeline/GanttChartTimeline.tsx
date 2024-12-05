@@ -11,6 +11,7 @@ import { YearsQuartersLabel } from './YearsQuartersLabel.js';
 export interface GanttChartTimelineProps {
   width: number;
   height: number;
+  // TODO: this is redundand, it's dates difference in days
   totalDuration: number;
   contractDuration: DateRange;
 }

@@ -30,3 +30,6 @@ examples/seed-test
 scripts/web-component-wrappers/interfaces.json
 
 .nx/cache
+
+settings.json
+
