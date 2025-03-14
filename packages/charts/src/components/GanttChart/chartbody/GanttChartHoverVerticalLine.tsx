@@ -13,7 +13,13 @@ const GanttChartHoverVerticalLine: React.FC<GanttChartHoverVerticalLine> = ({ ve
   const headerHeight = 28;
 
   return (
-    <div style={{ position: 'absolute', left: verticalLinePosition, top: 0, height: '100%', pointerEvents: 'none' }}>
+    <div style={{
+      position: 'absolute',
+      left: verticalLinePosition,
+      top: 0,
+      height: '100%',
+      pointerEvents: 'none'
+    }}>
       <div
         style={{
           position: 'absolute',
@@ -21,13 +27,13 @@ const GanttChartHoverVerticalLine: React.FC<GanttChartHoverVerticalLine> = ({ ve
           transform: 'translateX(-50%)',
           width: 'auto',
           padding: '4px 8px',
-          marginTop: '10px',
+          marginTop: '20px',
           backgroundColor: 'white',
-          border: `2px solid ${ThemingParameters.sapSelectedColor}`,
+          border: `1px solid ${ThemingParameters.sapSelectedColor}`,
           color: ThemingParameters.sapSelectedColor,
           fontSize: '14px',
-          fontWeight: 'bold',
-          borderRadius: '4px',
+          fontWeight: 'normal',
+          borderRadius: 0,
           whiteSpace: 'nowrap'
         }}
       >
@@ -37,10 +43,9 @@ const GanttChartHoverVerticalLine: React.FC<GanttChartHoverVerticalLine> = ({ ve
       <div
         style={{
           position: 'absolute',
-          left: '50%',
-          top: `${headerHeight + 10}px`,
-          width: '2px',
-          height: `calc(100% - ${headerHeight + 10}px)`,
+          top: `${headerHeight + 17}px`,
+          width: 1,
+          height: `calc(100% - ${headerHeight}px)`,
           backgroundColor: ThemingParameters.sapSelectedColor,
         }}
       />
