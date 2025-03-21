@@ -3,24 +3,53 @@ import React from 'react';
 
 interface GanttChartHoverVerticalLine {
   verticalLinePosition: number;
+  headerText: string;
 }
 
 /**
  * Component that renders a vertical line in the Gantt chart. This line is meant to be used as a hover line.
  */
-const GanttChartHoverVerticalLine: React.FC<GanttChartHoverVerticalLine> = ({ verticalLinePosition }) => {
+const GanttChartHoverVerticalLine: React.FC<GanttChartHoverVerticalLine> = ({ verticalLinePosition, headerText }) => {
+  const headerHeight = 28;
+
   return (
-    <div
-      style={{
-        position: 'absolute',
-        left: verticalLinePosition,
-        top: 0,
-        width: 1,
-        height: '100%',
-        backgroundColor: ThemingParameters.sapSelectedColor,
-        pointerEvents: 'none'
-      }}
-    />
+    <div style={{
+      position: 'absolute',
+      left: verticalLinePosition,
+      top: 0,
+      height: '100%',
+      pointerEvents: 'none'
+    }}>
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 'auto',
+          padding: '4px 8px',
+          marginTop: '20px',
+          backgroundColor: 'white',
+          border: `1px solid ${ThemingParameters.sapSelectedColor}`,
+          color: ThemingParameters.sapSelectedColor,
+          fontSize: '14px',
+          fontWeight: 'normal',
+          borderRadius: 0,
+          whiteSpace: 'nowrap'
+        }}
+      >
+        {headerText}
+      </div>
+
+      <div
+        style={{
+          position: 'absolute',
+          top: `${headerHeight + 17}px`,
+          width: 1,
+          height: `calc(100% - ${headerHeight}px)`,
+          backgroundColor: ThemingParameters.sapSelectedColor,
+        }}
+      />
+    </div>
   );
 };
 

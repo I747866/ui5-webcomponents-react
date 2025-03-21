@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import React from 'react';
 import type { DateRange, IGanttChartRow, OpenRowIndex, OpenSubRowIndexes, IGanttChartEvent, IGanttChartTask } from '../types/GanttChartTypes.js';
 export interface GanttChartBodyProps {

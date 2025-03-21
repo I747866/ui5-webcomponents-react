@@ -1,6 +1,7 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import React, { useRef, useState } from 'react';
 import { GanttChartRowGroup } from '../chartRow/GanttChartRowGroup.js';
+import { getMonthsDays } from '../headers/GanttChartTimeline/GanttChartTimelineSupport.js';
 import type {
   DateRange,
   IGanttChartRow,
@@ -9,7 +10,7 @@ import type {
   IGanttChartEvent,
   IGanttChartTask
 } from '../types/GanttChartTypes.js';
-import { ROW_CONTRACT_DURATION_HEIGHT } from '../util/constants.js';
+import {ROW_CONTRACT_DURATION_HEIGHT} from '../util/constants.js';
 import { GanttChartBodyCtx } from '../util/context.js';
 import { solidOutline, useStyles } from '../util/styles.js';
 import { getStartTime } from '../util/utils.js';
@@ -65,6 +66,7 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
   const tooltipRef = useRef<GanttTooltipHandle>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const [verticalLinePosition, setVerticalLinePosition] = useState<number | null>(null);
+  const [hoverHeaderText, setHoverHeaderText] = useState<string>('');
 
   const style: CSSProperties = {
     width: `${width}px`,
@@ -88,7 +90,11 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = bodyRef.current.getBoundingClientRect();
     if (rect) {
-      setVerticalLinePosition(e.clientX - rect.left);
+      const relativeX = e.clientX - rect.left;
+      setVerticalLinePosition(relativeX);
+
+      const headerText = getHoverLineHeaderText(relativeX);
+      setHoverHeaderText(headerText)
     }
   };
 
@@ -99,6 +105,31 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
   const handleEventsClick = (events: IGanttChartEvent[], e: React.MouseEvent) => {
     onEventClick?.(events, e);
   };
+
+  const getHoverLineHeaderText = (position: number) => {
+    if (!showVerticalLineOnHover || !contractDuration || !width) return '';
+
+    const { dateStart, dateEnd } = contractDuration;
+    if (!dateStart || !dateEnd) return '';
+
+    const start = new Date(dateStart);
+    const end = new Date(dateEnd);
+
+    // Get exact month boundaries, and how many days from begining the hover is now
+    const monthsData = getMonthsDays(start, end);
+    const hoveredDays = Math.round((position / width) * totalDuration);
+
+    // Find  month the hover falls on
+    let accumulatedDays = 0;
+    for (const month of monthsData) {
+      accumulatedDays += month.days;
+      if (hoveredDays < accumulatedDays) {
+        return month.name;
+      }
+    }
+
+    return monthsData[monthsData.length - 1].name; // fallback to December
+  }
 
   return (
     <div
@@ -135,7 +166,7 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
       ) : null}
 
       {showVerticalLineOnHover && verticalLinePosition && (
-        <GanttChartHoverVerticalLine verticalLinePosition={verticalLinePosition} />
+        <GanttChartHoverVerticalLine verticalLinePosition={verticalLinePosition} headerText={hoverHeaderText}/>
       )}
       {showStaticVerticalLine && (
         <GanttChartStaticVerticalLine
