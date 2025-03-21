@@ -29,7 +29,7 @@ import { MONTH_NAMES } from '../../util/constants.js';
  * // ]
  */
 
-const getMonthsDays = (start: Date, end: Date): TimelineUnit[] => {
+export const getMonthsDays = (start: Date, end: Date): TimelineUnit[] => {
   return eachMonthOfInterval({ start, end }).map((month) => ({
     name: MONTH_NAMES[month.getMonth()],
     days: getDaysInMonth(month),

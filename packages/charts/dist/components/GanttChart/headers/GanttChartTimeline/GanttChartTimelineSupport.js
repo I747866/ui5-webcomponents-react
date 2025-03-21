@@ -20,7 +20,7 @@ import { MONTH_NAMES } from '../../util/constants.js';
  * //   { name: 'March', days: 31, year: 2024 }
  * // ]
  */
-const getMonthsDays = (start, end) => {
+export const getMonthsDays = (start, end) => {
     return eachMonthOfInterval({ start, end }).map((month) => ({
         name: MONTH_NAMES[month.getMonth()],
         days: getDaysInMonth(month),
