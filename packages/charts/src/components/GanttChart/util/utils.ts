@@ -246,7 +246,7 @@ export const groupOverlappingEvents = (
 
 const setGroupIcon = (groups: IEventsGroup[]): IEventsGroup[] => {
   return groups.map((group) => {
-    if(group.events.length === 1) {
+    if (group.events.length === 1) {
       return group;
     }
     if (checkIfAllIconsInGroupAreTheSame(group.events)) {

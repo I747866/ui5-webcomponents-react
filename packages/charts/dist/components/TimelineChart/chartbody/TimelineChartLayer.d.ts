@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 interface TimelineChartLayerProps {
-    ignoreClick?: boolean;
-    children?: ReactNode | ReactNode[];
-    isAnnotation?: boolean;
-    name?: string;
+  ignoreClick?: boolean;
+  children?: ReactNode | ReactNode[];
+  isAnnotation?: boolean;
+  name?: string;
 }
 /**
  * The TimeLineChartLayer represents each layer of the chart rendering. This
@@ -12,5 +12,10 @@ interface TimelineChartLayerProps {
  * can be used to render the grid lines and another can be used to render
  * annotations or tasks.
  */
-declare const TimelineChartLayer: ({ ignoreClick, isAnnotation, children, name }: TimelineChartLayerProps) => React.JSX.Element;
+declare const TimelineChartLayer: ({
+  ignoreClick,
+  isAnnotation,
+  children,
+  name
+}: TimelineChartLayerProps) => React.JSX.Element;
 export { TimelineChartLayer };

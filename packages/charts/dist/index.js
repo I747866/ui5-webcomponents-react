@@ -24,4 +24,31 @@ import { ScatterChart } from './components/ScatterChart/ScatterChart.js';
 import { TimelineChartPlaceholder } from './components/TimelineChart/Placeholder.js';
 import { TimelineChart } from './components/TimelineChart/TimelineChart.js';
 import { TimelineChartAnnotation } from './components/TimelineChart/TimelineChartAnnotation.js';
-export { BarChart, BulletChart, ColumnChart, ColumnChartWithTrend, ComposedChart, DonutChart, LineChart, MicroBarChart, PieChart, RadarChart, RadialChart, ScatterChart, TimelineChart, TimelineChartAnnotation, GanttChart, GanttChartAnnotation, GanttChartPlaceholder, BarChartPlaceholder, BulletChartPlaceholder, ColumnChartPlaceholder, ComposedChartPlaceholder, LineChartPlaceholder, PieChartPlaceholder, ScatterChartPlaceholder, ColumnChartWithTrendPlaceholder, TimelineChartPlaceholder };
+export {
+  BarChart,
+  BulletChart,
+  ColumnChart,
+  ColumnChartWithTrend,
+  ComposedChart,
+  DonutChart,
+  LineChart,
+  MicroBarChart,
+  PieChart,
+  RadarChart,
+  RadialChart,
+  ScatterChart,
+  TimelineChart,
+  TimelineChartAnnotation,
+  GanttChart,
+  GanttChartAnnotation,
+  GanttChartPlaceholder,
+  BarChartPlaceholder,
+  BulletChartPlaceholder,
+  ColumnChartPlaceholder,
+  ComposedChartPlaceholder,
+  LineChartPlaceholder,
+  PieChartPlaceholder,
+  ScatterChartPlaceholder,
+  ColumnChartWithTrendPlaceholder,
+  TimelineChartPlaceholder
+};

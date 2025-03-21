@@ -4,9 +4,11 @@ export const ROW_TITLE_WIDTH = 150;
 export const COLUMN_HEADER_HEIGHT = 50;
 export const DEFAULT_ROW_HEIGHT = 25;
 export const DEFAULT_CHART_VERTICAL_COLS = 5;
-export const INVALID_DISCRETE_LABELS_MESSAGE = 'The "discreteLabels" prop length must be equal to the "totalDuration" prop value if supplied. \
+export const INVALID_DISCRETE_LABELS_MESSAGE =
+  'The "discreteLabels" prop length must be equal to the "totalDuration" prop value if supplied. \
   Please adjust the discreteLabel array or change the totalDuration.';
-export const ILLEGAL_CONNECTION_MESSAGE = 'Tasks or Milestones with connections must have a unique ID. \
+export const ILLEGAL_CONNECTION_MESSAGE =
+  'Tasks or Milestones with connections must have a unique ID. \
   Please a unique "id" property to any Task or Milestone item with a connection';
 export const MOUSE_CURSOR_AUTO = 'auto';
 export const MOUSE_CURSOR_GRAB = 'grab';

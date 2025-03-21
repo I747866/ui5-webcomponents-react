@@ -1,9 +1,9 @@
 import React from 'react';
 import type { DateRange } from '../types/GanttChartTypes.js';
 export interface GanttContractDurationProps {
-    contractDuration: DateRange;
+  contractDuration: DateRange;
 }
 export declare const GanttContractDuration: {
-    (props: GanttContractDurationProps): React.JSX.Element;
-    displayName: string;
+  (props: GanttContractDurationProps): React.JSX.Element;
+  displayName: string;
 };

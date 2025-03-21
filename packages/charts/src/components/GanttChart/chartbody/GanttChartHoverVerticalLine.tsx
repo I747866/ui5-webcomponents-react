@@ -13,13 +13,15 @@ const GanttChartHoverVerticalLine: React.FC<GanttChartHoverVerticalLine> = ({ ve
   const headerHeight = 28;
 
   return (
-    <div style={{
-      position: 'absolute',
-      left: verticalLinePosition,
-      top: 0,
-      height: '100%',
-      pointerEvents: 'none'
-    }}>
+    <div
+      style={{
+        position: 'absolute',
+        left: verticalLinePosition,
+        top: 0,
+        height: '100%',
+        pointerEvents: 'none'
+      }}
+    >
       <div
         style={{
           position: 'absolute',
@@ -46,7 +48,7 @@ const GanttChartHoverVerticalLine: React.FC<GanttChartHoverVerticalLine> = ({ ve
           top: `${headerHeight + 17}px`,
           width: 1,
           height: `calc(100% - ${headerHeight}px)`,
-          backgroundColor: ThemingParameters.sapSelectedColor,
+          backgroundColor: ThemingParameters.sapSelectedColor
         }}
       />
     </div>

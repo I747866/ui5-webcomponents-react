@@ -48,7 +48,7 @@ export const GanttChartEvent = ({
         }}
         onClick={handleEventClickEvent}
       >
-        <Icon name={groupIcon? groupIcon : events[0].icon} style={{ width: iconSize, color: events[0].color }} />
+        <Icon name={groupIcon ? groupIcon : events[0].icon} style={{ width: iconSize, color: events[0].color }} />
         {events.length > 1 && (
           <span
             style={{
