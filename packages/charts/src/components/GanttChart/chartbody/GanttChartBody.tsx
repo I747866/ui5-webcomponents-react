@@ -10,7 +10,7 @@ import type {
   IGanttChartEvent,
   IGanttChartTask
 } from '../types/GanttChartTypes.js';
-import {ROW_CONTRACT_DURATION_HEIGHT} from '../util/constants.js';
+import { ROW_CONTRACT_DURATION_HEIGHT } from '../util/constants.js';
 import { GanttChartBodyCtx } from '../util/context.js';
 import { solidOutline, useStyles } from '../util/styles.js';
 import { getStartTime } from '../util/utils.js';
@@ -67,6 +67,7 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
   const bodyRef = useRef<HTMLDivElement>(null);
   const [verticalLinePosition, setVerticalLinePosition] = useState<number | null>(null);
   const [hoverHeaderText, setHoverHeaderText] = useState<string>('');
+  const [hideHoverVerticalLine, setHideHoverVerticalLine] = useState<boolean>(false);
 
   const style: CSSProperties = {
     width: `${width}px`,
@@ -94,7 +95,7 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
       setVerticalLinePosition(relativeX);
 
       const headerText = getHoverLineHeaderText(relativeX);
-      setHoverHeaderText(headerText)
+      setHoverHeaderText(headerText);
     }
   };
 
@@ -129,7 +130,7 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
     }
 
     return monthsData[monthsData.length - 1].name; // fallback to December
-  }
+  };
 
   return (
     <div
@@ -165,14 +166,15 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
         </GanttChartLayer>
       ) : null}
 
-      {showVerticalLineOnHover && verticalLinePosition && (
-        <GanttChartHoverVerticalLine verticalLinePosition={verticalLinePosition} headerText={hoverHeaderText}/>
+      {showVerticalLineOnHover && verticalLinePosition && !hideHoverVerticalLine && (
+        <GanttChartHoverVerticalLine verticalLinePosition={verticalLinePosition} headerText={hoverHeaderText} />
       )}
       {showStaticVerticalLine && (
         <GanttChartStaticVerticalLine
           time={getStartTime(contractDuration.dateStart, staticVerticalLinePosition)}
           totalDuration={totalDuration}
           GanttStart={0}
+          onHover={(hovered) => setHideHoverVerticalLine(hovered)}
         />
       )}
     </div>

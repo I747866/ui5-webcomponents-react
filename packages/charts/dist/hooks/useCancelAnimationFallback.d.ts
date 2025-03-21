@@ -1,5 +1,5 @@
 export declare const useCancelAnimationFallback: (noAnimation: boolean) => {
-    isMounted: boolean;
-    handleBarAnimationStart: () => void;
-    handleBarAnimationEnd: () => void;
+  isMounted: boolean;
+  handleBarAnimationStart: () => void;
+  handleBarAnimationEnd: () => void;
 };

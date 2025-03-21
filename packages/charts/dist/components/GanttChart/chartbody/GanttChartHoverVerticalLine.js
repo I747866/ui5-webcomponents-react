@@ -32,7 +32,7 @@ const GanttChartHoverVerticalLine = ({ verticalLinePosition, headerText }) => {
                 top: `${headerHeight + 17}px`,
                 width: 1,
                 height: `calc(100% - ${headerHeight}px)`,
-                backgroundColor: ThemingParameters.sapSelectedColor,
+                backgroundColor: ThemingParameters.sapSelectedColor
             } })));
 };
 export { GanttChartHoverVerticalLine };

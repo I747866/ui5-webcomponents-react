@@ -6,14 +6,18 @@ import { useStyles } from './util/styles.js';
  * or illustrations on the Gantt of the chart.
  */
 const GanttChartAnnotation = forwardRef((props, ref) => {
-    const { width = 'auto', height, rowIndex = 0, rowHeight = DEFAULT_ROW_HEIGHT, figure, ...rest } = props;
-    const classes = useStyles();
-    const style = {
-        width: width,
-        height: height != null ? height : rowHeight,
-        insetBlockStart: `${rowIndex * rowHeight}px`
-    };
-    return (React.createElement("div", { ref: ref, className: classes.annotation, ...rest, style: style, "data-component-name": "GanttChartAnnotation" }, figure));
+  const { width = 'auto', height, rowIndex = 0, rowHeight = DEFAULT_ROW_HEIGHT, figure, ...rest } = props;
+  const classes = useStyles();
+  const style = {
+    width: width,
+    height: height != null ? height : rowHeight,
+    insetBlockStart: `${rowIndex * rowHeight}px`
+  };
+  return React.createElement(
+    'div',
+    { ref: ref, className: classes.annotation, ...rest, style: style, 'data-component-name': 'GanttChartAnnotation' },
+    figure
+  );
 });
 GanttChartAnnotation.displayName = 'GanttChartAnnotation';
 export { GanttChartAnnotation };

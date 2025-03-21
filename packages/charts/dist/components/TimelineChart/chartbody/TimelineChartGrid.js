@@ -6,12 +6,13 @@ import { DEFAULT_CHART_VERTICAL_COLS, TOLERANCE } from '../util/constants.js';
  * used to decided whether to render the vertical grid lines.
  */
 const TimelineChartGrid = ({ isDiscrete, numOfRows, rowHeight, totalDuration, width, unscaledWidth }) => {
-    const verticalSegmentWidth = unscaledWidth / DEFAULT_CHART_VERTICAL_COLS;
-    return (React.createElement("g", { style: { stroke: ThemingParameters.sapList_BorderColor } },
-        generateHGridLines(numOfRows, rowHeight),
-        isDiscrete
-            ? generateDiscreteVGridLines(totalDuration)
-            : generateNonDiscreteVGridLines(width, verticalSegmentWidth)));
+  const verticalSegmentWidth = unscaledWidth / DEFAULT_CHART_VERTICAL_COLS;
+  return React.createElement(
+    'g',
+    { style: { stroke: ThemingParameters.sapList_BorderColor } },
+    generateHGridLines(numOfRows, rowHeight),
+    isDiscrete ? generateDiscreteVGridLines(totalDuration) : generateNonDiscreteVGridLines(width, verticalSegmentWidth)
+  );
 };
 /**
  * This function generates the grid lines using the number of segments provided.
@@ -21,12 +22,21 @@ const TimelineChartGrid = ({ isDiscrete, numOfRows, rowHeight, totalDuration, wi
  * @returns An array of horizontal grid lines in SVG.
  */
 const generateHGridLines = (numOfSegments, rowHeight) => {
-    const gridLineArray = [];
-    for (let i = 1; i < numOfSegments; i++) {
-        const segmentOffset = rowHeight * i;
-        gridLineArray.push(React.createElement("line", { x1: "0", y1: `${segmentOffset}`, x2: "100%", y2: `${segmentOffset}`, key: `${segmentOffset}gridh`, strokeWidth: "1px" }));
-    }
-    return gridLineArray;
+  const gridLineArray = [];
+  for (let i = 1; i < numOfSegments; i++) {
+    const segmentOffset = rowHeight * i;
+    gridLineArray.push(
+      React.createElement('line', {
+        x1: '0',
+        y1: `${segmentOffset}`,
+        x2: '100%',
+        y2: `${segmentOffset}`,
+        key: `${segmentOffset}gridh`,
+        strokeWidth: '1px'
+      })
+    );
+  }
+  return gridLineArray;
 };
 /**
  * This function generates the grid lines using the number of segments provided.
@@ -35,13 +45,22 @@ const generateHGridLines = (numOfSegments, rowHeight) => {
  * @returns An array of vertical grid lines in SVG.
  */
 const generateDiscreteVGridLines = (numOfSegments) => {
-    const segmentSizePercent = 100 / numOfSegments;
-    const gridLineArray = [];
-    for (let i = 1; i < numOfSegments; i++) {
-        const segmentOffset = segmentSizePercent * i;
-        gridLineArray.push(React.createElement("line", { "data-component-name": "TimelineChartGridv", x1: `${segmentOffset}%`, y1: "0", x2: `${segmentOffset}%`, y2: "100%", key: `${segmentOffset}gridv` }));
-    }
-    return gridLineArray;
+  const segmentSizePercent = 100 / numOfSegments;
+  const gridLineArray = [];
+  for (let i = 1; i < numOfSegments; i++) {
+    const segmentOffset = segmentSizePercent * i;
+    gridLineArray.push(
+      React.createElement('line', {
+        'data-component-name': 'TimelineChartGridv',
+        x1: `${segmentOffset}%`,
+        y1: '0',
+        x2: `${segmentOffset}%`,
+        y2: '100%',
+        key: `${segmentOffset}gridv`
+      })
+    );
+  }
+  return gridLineArray;
 };
 /**
  * This function generates the grid lines using the verticalSegmentWidth provided.
@@ -51,16 +70,24 @@ const generateDiscreteVGridLines = (numOfSegments) => {
  * @returns An array of vertical grid lines in SVG.
  */
 const generateNonDiscreteVGridLines = (width, verticalSegmentWidth) => {
-    const gridLineArray = [];
-    let covered = verticalSegmentWidth;
-    let remaining = width;
-    if (verticalSegmentWidth <= 0)
-        return null;
-    while (remaining >= 2 * verticalSegmentWidth - TOLERANCE) {
-        gridLineArray.push(React.createElement("line", { "data-component-name": "TimelineChartGridv", x1: `${covered}`, y1: "0", x2: `${covered}`, y2: "100%", key: `${covered}gridv` }));
-        covered += verticalSegmentWidth;
-        remaining -= verticalSegmentWidth;
-    }
-    return gridLineArray;
+  const gridLineArray = [];
+  let covered = verticalSegmentWidth;
+  let remaining = width;
+  if (verticalSegmentWidth <= 0) return null;
+  while (remaining >= 2 * verticalSegmentWidth - TOLERANCE) {
+    gridLineArray.push(
+      React.createElement('line', {
+        'data-component-name': 'TimelineChartGridv',
+        x1: `${covered}`,
+        y1: '0',
+        x2: `${covered}`,
+        y2: '100%',
+        key: `${covered}gridv`
+      })
+    );
+    covered += verticalSegmentWidth;
+    remaining -= verticalSegmentWidth;
+  }
+  return gridLineArray;
 };
 export { TimelineChartGrid };

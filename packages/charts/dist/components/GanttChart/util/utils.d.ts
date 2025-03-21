@@ -1,4 +1,11 @@
-import type { DateRange, IEventsGroup, IGanttChartEvent, IGanttChartRow, OpenRowIndex, OpenSubRowIndexes } from '../types/GanttChartTypes.js';
+import type {
+  DateRange,
+  IEventsGroup,
+  IGanttChartEvent,
+  IGanttChartRow,
+  OpenRowIndex,
+  OpenSubRowIndexes
+} from '../types/GanttChartTypes.js';
 /**
  * Function to count all rows in a dataset of Gantt chart rows, including nested details and sub-details.
  * It calculates the total number of rows based on the expanded rows and sub-rows determined by the provided open row and sub-row indexes.
@@ -9,7 +16,11 @@ import type { DateRange, IEventsGroup, IGanttChartEvent, IGanttChartRow, OpenRow
  *
  * @returns {number} - The total count of rows, including expanded rows and sub-rows.
  */
-export declare const countAllRows: (rows: IGanttChartRow[], openRowIndex: OpenRowIndex, openSubRowIndexes: OpenSubRowIndexes) => number;
+export declare const countAllRows: (
+  rows: IGanttChartRow[],
+  openRowIndex: OpenRowIndex,
+  openSubRowIndexes: OpenSubRowIndexes
+) => number;
 /**
  * Formats the duration between the start and end dates of a contract.
  * It calculates the strict time difference between the two dates and returns the result in a human-readable format.
@@ -54,7 +65,11 @@ export declare const getStartTime: (contractStartDate: string, taskStartDate: st
  *
  * @returns {IGanttChartRow[]} - The flattened dataset, including expanded rows and sub-rows.
  */
-export declare const flattenDataset: (dataset: IGanttChartRow[], openRowIndex: OpenRowIndex, openSubRowIndexes: OpenSubRowIndexes) => IGanttChartRow[];
+export declare const flattenDataset: (
+  dataset: IGanttChartRow[],
+  openRowIndex: OpenRowIndex,
+  openSubRowIndexes: OpenSubRowIndexes
+) => IGanttChartRow[];
 /**
  * Groups overlapping events on the Gantt chart.
  * It groups events that are too close to each other based on the provided overlap threshold.
@@ -69,4 +84,11 @@ export declare const flattenDataset: (dataset: IGanttChartRow[], openRowIndex: O
  *
  * @returns {IEventsGroup[]} - An array of grouped events.
  */
-export declare const groupOverlappingEvents: (events: IGanttChartEvent[], contractStartDate: string, GanttStart: number, totalDuration: number, svgWidth: number, iconSize: number) => IEventsGroup[];
+export declare const groupOverlappingEvents: (
+  events: IGanttChartEvent[],
+  contractStartDate: string,
+  GanttStart: number,
+  totalDuration: number,
+  svgWidth: number,
+  iconSize: number
+) => IEventsGroup[];

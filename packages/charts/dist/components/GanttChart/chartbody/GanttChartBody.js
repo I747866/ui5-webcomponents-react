@@ -15,6 +15,7 @@ const GanttChartBody = (props) => {
     const bodyRef = useRef(null);
     const [verticalLinePosition, setVerticalLinePosition] = useState(null);
     const [hoverHeaderText, setHoverHeaderText] = useState('');
+    const [hideHoverVerticalLine, setHideHoverVerticalLine] = useState(false);
     const style = {
         width: `${width}px`,
         height: `${numOfItems * rowHeight + ROW_CONTRACT_DURATION_HEIGHT}px`,
@@ -65,7 +66,7 @@ const GanttChartBody = (props) => {
             React.createElement(GanttChartRowGroup, { dataset: dataset, rowHeight: rowHeight, totalDuration: totalDuration, contractDuration: contractDuration, GanttStart: 0, showTooltip: showTooltipOnHover, hideTooltip: hideTooltip, handleTaskClick: handleTaskClick, openRowIndexes: openRowIndexes, openSubRowIndexes: openSubRowIndexes, chartBodyScale: chartBodyScale, ganttChartBodyWidth: width, handleEventsClick: handleEventsClick, shouldEventsBeGrouped: shouldEventsBeGrouped })),
         showAnnotation && annotations != null ? (React.createElement(GanttChartLayer, { name: "GanttChartAnnotationLayer", isAnnotation: true, ignoreClick: true },
             React.createElement(GanttChartBodyCtx.Provider, { value: { chartBodyWidth: width } }, annotations))) : null,
-        showVerticalLineOnHover && verticalLinePosition && (React.createElement(GanttChartHoverVerticalLine, { verticalLinePosition: verticalLinePosition, headerText: hoverHeaderText })),
-        showStaticVerticalLine && (React.createElement(GanttChartStaticVerticalLine, { time: getStartTime(contractDuration.dateStart, staticVerticalLinePosition), totalDuration: totalDuration, GanttStart: 0 }))));
+        showVerticalLineOnHover && verticalLinePosition && !hideHoverVerticalLine && (React.createElement(GanttChartHoverVerticalLine, { verticalLinePosition: verticalLinePosition, headerText: hoverHeaderText })),
+        showStaticVerticalLine && (React.createElement(GanttChartStaticVerticalLine, { time: getStartTime(contractDuration.dateStart, staticVerticalLinePosition), totalDuration: totalDuration, GanttStart: 0, onHover: (hovered) => setHideHoverVerticalLine(hovered) }))));
 };
 export { GanttChartBody };
