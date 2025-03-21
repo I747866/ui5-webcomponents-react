@@ -24,7 +24,7 @@ const GanttChartStaticVerticalLine: React.FC<GanttChartStaticVerticalLine> = ({
   const cursor = isHovered ? 'pointer' : 'inherit';
   const left = ((time + 1 - GanttStart) / totalDuration) * 100;
   const rectSize = 5;
-  const rectOffset = rectSize / 2;
+  const rectOffset = rectSize / 2 + 0.5;
 
   const setHover = (hovered: boolean) => {
     setIsHovered(hovered);
