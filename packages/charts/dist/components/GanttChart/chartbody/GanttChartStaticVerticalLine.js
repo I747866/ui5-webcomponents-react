@@ -1,5 +1,4 @@
 import { ThemingParameters } from '@ui5/webcomponents-react-base';
-import { format } from 'date-fns';
 import React, { useState } from 'react';
 /**
  * Component that renders a vertical line in the Gantt chart. This line is static and does not move.
@@ -16,6 +15,11 @@ const GanttChartStaticVerticalLine = ({ GanttStart, totalDuration, time, onHover
         if (onHover)
             onHover(hovered);
     };
+    const formattedDate = new Intl.DateTimeFormat(undefined, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).format(new Date());
     return (React.createElement("div", { onMouseEnter: () => setHover(true), onMouseLeave: () => setHover(false), style: {
             position: 'absolute',
             left: `${left}%`,
@@ -38,7 +42,7 @@ const GanttChartStaticVerticalLine = ({ GanttStart, totalDuration, time, onHover
             fontWeight: 'normal',
             borderRadius: 0,
             whiteSpace: 'nowrap'
-        } }, format(new Date(), 'dd-MM-yyyy'))) : (React.createElement("div", { title: "Today", style: {
+        } }, formattedDate)) : (React.createElement("div", { title: "Today", style: {
             top: `-1px`,
             position: 'absolute',
             left: `-${rectOffset}px`,

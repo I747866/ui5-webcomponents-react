@@ -1,5 +1,4 @@
 import { ThemingParameters } from '@ui5/webcomponents-react-base';
-import { format } from 'date-fns';
 import React, { useState } from 'react';
 
 interface GanttChartStaticVerticalLine {
@@ -30,6 +29,12 @@ const GanttChartStaticVerticalLine: React.FC<GanttChartStaticVerticalLine> = ({
     setIsHovered(hovered);
     if (onHover) onHover(hovered);
   };
+
+  const formattedDate = new Intl.DateTimeFormat(undefined, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date());
 
   return (
     <div
@@ -63,7 +68,7 @@ const GanttChartStaticVerticalLine: React.FC<GanttChartStaticVerticalLine> = ({
             whiteSpace: 'nowrap'
           }}
         >
-          {format(new Date(), 'dd-MM-yyyy')}
+          {formattedDate}
         </div>
       ) : (
         <div
