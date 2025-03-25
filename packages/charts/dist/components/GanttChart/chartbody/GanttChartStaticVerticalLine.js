@@ -15,11 +15,7 @@ const GanttChartStaticVerticalLine = ({ GanttStart, totalDuration, time, onHover
         if (onHover)
             onHover(hovered);
     };
-    const formattedDate = new Intl.DateTimeFormat(undefined, {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-    }).format(new Date());
+    const formattedDate = new Date().toLocaleDateString(navigator.language);
     return (React.createElement("div", { onMouseEnter: () => setHover(true), onMouseLeave: () => setHover(false), style: {
             position: 'absolute',
             left: `${left}%`,
