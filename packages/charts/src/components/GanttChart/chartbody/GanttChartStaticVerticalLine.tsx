@@ -30,11 +30,7 @@ const GanttChartStaticVerticalLine: React.FC<GanttChartStaticVerticalLine> = ({
     if (onHover) onHover(hovered);
   };
 
-  const formattedDate = new Intl.DateTimeFormat(undefined, {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  }).format(new Date());
+  const formattedDate = new Date().toLocaleDateString(navigator.language);
 
   return (
     <div
