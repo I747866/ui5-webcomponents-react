@@ -1,4 +1,4 @@
-import { differenceInDays, endOfMonth, formatDistanceStrict, startOfMonth } from 'date-fns/fp';
+import { differenceInDays, formatDistanceStrict } from 'date-fns/fp';
 import type {
   DateRange,
   IEventsGroup,
@@ -75,10 +75,10 @@ export const calculateTotalDuration = (contractDuration: DateRange): number | nu
     return null;
   }
 
-  const start = startOfMonth(new Date(dateStart));
-  const end = endOfMonth(new Date(dateEnd));
-
-  return differenceInDays(start, end);
+  const start = new Date(dateStart);
+  const end = new Date(dateEnd);
+  //add 1 day to fix last day cut off issue
+  return differenceInDays(start, end) + 1;
 };
 
 /**
