@@ -87,6 +87,20 @@ export const GanttChartRow = ({
     shouldEventsBeGrouped
   ]);
 
+  const getChartEvent = (group: IEventsGroup) => {
+    const position = (group.startTime / totalDuration) * 100;
+    return position ? (
+      <GanttChartEvent
+        key={group.key}
+        events={group.events}
+        iconSize={EVENT_ICON_SIZE}
+        position={`${(group.startTime / totalDuration) * 100}%`}
+        handleEventsClick={handleEventsClick}
+        groupIcon={group?.groupIcon}
+      />
+    ) : null;
+  };
+
   return (
     <svg
       x="0"
@@ -116,18 +130,7 @@ export const GanttChartRow = ({
         );
       })}
 
-      <g>
-        {groupedRowDataEvents.map((group) => (
-          <GanttChartEvent
-            key={group.key}
-            events={group.events}
-            iconSize={EVENT_ICON_SIZE}
-            position={`${(group.startTime / totalDuration) * 100}%`}
-            handleEventsClick={handleEventsClick}
-            groupIcon={group?.groupIcon}
-          />
-        ))}
-      </g>
+      <g>{groupedRowDataEvents.map((group) => getChartEvent(group))}</g>
     </svg>
   );
 };
