@@ -120,6 +120,8 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
     const monthsData = getMonthsDays(start, end);
     const hoveredDays = Math.round((position / width) * totalDuration);
 
+    if (hoveredDays === 0) return '';
+
     // Find  month the hover falls on
     let accumulatedDays = 0;
     for (const month of monthsData) {
@@ -159,16 +161,15 @@ const GanttChartBody = (props: GanttChartBodyProps) => {
           shouldEventsBeGrouped={shouldEventsBeGrouped}
         />
       </GanttChartLayer>
-
       {showAnnotation && annotations != null ? (
         <GanttChartLayer name="GanttChartAnnotationLayer" isAnnotation ignoreClick>
           <GanttChartBodyCtx.Provider value={{ chartBodyWidth: width }}>{annotations}</GanttChartBodyCtx.Provider>
         </GanttChartLayer>
       ) : null}
 
-      {showVerticalLineOnHover && verticalLinePosition && !hideHoverVerticalLine && (
+      {showVerticalLineOnHover && verticalLinePosition != null && !hideHoverVerticalLine ? (
         <GanttChartHoverVerticalLine verticalLinePosition={verticalLinePosition} headerText={hoverHeaderText} />
-      )}
+      ) : null}
       {showStaticVerticalLine && (
         <GanttChartStaticVerticalLine
           time={getStartTime(contractDuration.dateStart, staticVerticalLinePosition)}
