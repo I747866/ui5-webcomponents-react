@@ -51,6 +51,8 @@ const GanttChartBody = (props) => {
         // Get exact month boundaries, and how many days from begining the hover is now
         const monthsData = getMonthsDays(start, end);
         const hoveredDays = Math.round((position / width) * totalDuration);
+        if (hoveredDays === 0)
+            return '';
         // Find  month the hover falls on
         let accumulatedDays = 0;
         for (const month of monthsData) {
@@ -66,7 +68,7 @@ const GanttChartBody = (props) => {
             React.createElement(GanttChartRowGroup, { dataset: dataset, rowHeight: rowHeight, totalDuration: totalDuration, contractDuration: contractDuration, GanttStart: 0, showTooltip: showTooltipOnHover, hideTooltip: hideTooltip, handleTaskClick: handleTaskClick, openRowIndexes: openRowIndexes, openSubRowIndexes: openSubRowIndexes, chartBodyScale: chartBodyScale, ganttChartBodyWidth: width, handleEventsClick: handleEventsClick, shouldEventsBeGrouped: shouldEventsBeGrouped })),
         showAnnotation && annotations != null ? (React.createElement(GanttChartLayer, { name: "GanttChartAnnotationLayer", isAnnotation: true, ignoreClick: true },
             React.createElement(GanttChartBodyCtx.Provider, { value: { chartBodyWidth: width } }, annotations))) : null,
-        showVerticalLineOnHover && verticalLinePosition && !hideHoverVerticalLine && (React.createElement(GanttChartHoverVerticalLine, { verticalLinePosition: verticalLinePosition, headerText: hoverHeaderText })),
+        showVerticalLineOnHover && verticalLinePosition != null && !hideHoverVerticalLine ? (React.createElement(GanttChartHoverVerticalLine, { verticalLinePosition: verticalLinePosition, headerText: hoverHeaderText })) : null,
         showStaticVerticalLine && (React.createElement(GanttChartStaticVerticalLine, { time: getStartTime(contractDuration.dateStart, staticVerticalLinePosition), totalDuration: totalDuration, GanttStart: 0, onHover: (hovered) => setHideHoverVerticalLine(hovered) }))));
 };
 export { GanttChartBody };
