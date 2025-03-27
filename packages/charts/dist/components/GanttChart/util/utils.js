@@ -1,4 +1,4 @@
-import { differenceInDays, endOfMonth, formatDistanceStrict, startOfMonth } from 'date-fns/fp';
+import { differenceInDays, formatDistanceStrict } from 'date-fns/fp';
 const ONE_DAY = 24 * 60 * 60 * 1000; // milliseconds in one day
 /**
  * Function to count all rows in a dataset of Gantt chart rows, including nested details and sub-details.
@@ -52,9 +52,10 @@ export const calculateTotalDuration = (contractDuration) => {
     if (!dateStart || !dateEnd) {
         return null;
     }
-    const start = startOfMonth(new Date(dateStart));
-    const end = endOfMonth(new Date(dateEnd));
-    return differenceInDays(start, end);
+    const start = new Date(dateStart);
+    const end = new Date(dateEnd);
+    //add 1 day to fix last day cut off issue
+    return differenceInDays(start, end) + 1;
 };
 /**
  * Counts the duration of a task in days.

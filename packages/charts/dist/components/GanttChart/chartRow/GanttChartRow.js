@@ -35,10 +35,14 @@ export const GanttChartRow = ({ rowData, rowHeight, rowIndex, totalDuration, Gan
         ganttChartBodyWidth,
         shouldEventsBeGrouped
     ]);
+    const getChartEvent = (group) => {
+        const position = (group.startTime / totalDuration) * 100;
+        return position ? (React.createElement(GanttChartEvent, { key: group.key, events: group.events, iconSize: EVENT_ICON_SIZE, position: `${(group.startTime / totalDuration) * 100}%`, handleEventsClick: handleEventsClick, groupIcon: group?.groupIcon })) : null;
+    };
     return (React.createElement("svg", { x: "0", y: `${rowIndex * rowHeight + ROW_CONTRACT_DURATION_HEIGHT}`, width: "100%", overflow: 'visible', height: `${rowHeight}`, style: { pointerEvents: 'none' }, "data-component-name": "GanttChartRow", ...rest },
         rowData.tasks?.map((task, index) => {
             return (React.createElement(GanttTask, { key: task.id + index + task.dateStart + task.dateEnd, id: task.id, startTime: getStartTime(contractDuration?.dateStart, task.dateStart), duration: countTaskDuration(task.dateStart, task.dateEnd), totalDuration: totalDuration, GanttStart: GanttStart, showTooltip: showTooltip, hideTooltip: hideTooltip, handleTaskClick: handleTaskClick, task: task, parentId: rowData.id }));
         }),
-        React.createElement("g", null, groupedRowDataEvents.map((group) => (React.createElement(GanttChartEvent, { key: group.key, events: group.events, iconSize: EVENT_ICON_SIZE, position: `${(group.startTime / totalDuration) * 100}%`, handleEventsClick: handleEventsClick, groupIcon: group?.groupIcon }))))));
+        React.createElement("g", null, groupedRowDataEvents.map((group) => getChartEvent(group)))));
 };
 GanttChartRow.displayName = 'GanttChartRow';
