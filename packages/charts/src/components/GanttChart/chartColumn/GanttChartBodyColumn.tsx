@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import throttle from 'lodash.throttle';
 import { GanttChartBody } from '../chartbody/GanttChartBody.js';
 import { GanttChartTimeline } from '../headers/GanttChartTimeline/GanttChartTimeline.js';
 import type {
@@ -86,25 +87,37 @@ export const GanttChartBodyColumn = (props: GanttChartBodyColumnProps) => {
 
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (chartBodyScale > 1) {
+      // Prevents browser from triggering auto-scroll when grabbing the chart and moving the mouse to the edge
+      // (native "edge scroll" behavior), and accidentally selecting text while moving the chart on drag
+      bodyConRef.current.style.userSelect = 'none';
       setIsGrabbed(true);
       setMPos(e.clientX);
     }
   };
 
-  const onMouseUp = () => {
-    if (chartBodyScale > 1) setIsGrabbed(false);
-  };
-
-  // TODO: throttle this function!
-  const mouseMoveHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const throttledMouseMove = throttle((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (isGrabbed) {
+      e.preventDefault();
       const dx = e.clientX - mPos;
-      // Make negative so that the scrolling can move in
-      // same direction as the mouse
-      bodyConRef.current.scrollBy({ left: -dx });
+      bodyConRef.current?.scrollBy({ left: -dx });
       setMPos(e.clientX);
     }
-  };
+  }, 16); // roughly 60fps
+
+  useEffect(() => {
+    const handleMouseUp = () => {
+      bodyConRef.current.style.userSelect = '';
+      if (chartBodyScale > 1 && isGrabbed) {
+        setIsGrabbed(false);
+      }
+    };
+    // handleMouseUp needs to be attached to the window so that it can stop moving the chart if user moves mouse off the component boundaries
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isGrabbed]);
 
   return (
     <div
@@ -119,8 +132,7 @@ export const GanttChartBodyColumn = (props: GanttChartBodyColumnProps) => {
         paddingBottom: `15px`
       }}
       onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      onMouseMove={mouseMoveHandler}
+      onMouseMove={throttledMouseMove}
     >
       <GanttChartTimeline
         width={bodyWidth}
