@@ -1,6 +1,6 @@
+import { throttle } from '@ui5/webcomponents-react-base';
 import type { ReactNode } from 'react';
 import React, { useRef, useState, useEffect } from 'react';
-import throttle from 'lodash.throttle';
 import { GanttChartBody } from '../chartbody/GanttChartBody.js';
 import { GanttChartTimeline } from '../headers/GanttChartTimeline/GanttChartTimeline.js';
 import type {
@@ -90,6 +90,7 @@ export const GanttChartBodyColumn = (props: GanttChartBodyColumnProps) => {
       // Prevents browser from triggering auto-scroll when grabbing the chart and moving the mouse to the edge
       // (native "edge scroll" behavior), and accidentally selecting text while moving the chart on drag
       bodyConRef.current.style.userSelect = 'none';
+      e.preventDefault();
       setIsGrabbed(true);
       setMPos(e.clientX);
     }
