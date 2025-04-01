@@ -46,40 +46,40 @@ const GanttChartStaticVerticalLine: React.FC<GanttChartStaticVerticalLine> = ({
         cursor
       }}
     >
-      {isHovered ? (
+      {isHovered && (
         <div
           style={{
             position: 'absolute',
             left: '50%',
-            transform: 'translateX(-50%)',
+            transform: 'translateX(10%) translateY(180%)',
             width: 'auto',
-            padding: '4px 8px',
+            padding: '3px 6px',
             marginTop: '-20px',
-            backgroundColor: 'white',
-            border: `1px solid ${ThemingParameters.sapLegendColor2}`,
-            color: ThemingParameters.sapLegendColor2,
-            fontSize: '14px',
+            backgroundColor: '#e4e1e4',
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: '2px',
+            color: '#454445',
+            boxShadow: '0px 2px 4px 0px rgba(85, 107, 130, 0.16), 0px 0px 2px 0px rgba(85, 107, 130, 0.16)',
+            fontSize: '12px',
             fontWeight: 'normal',
-            borderRadius: 0,
             whiteSpace: 'nowrap'
           }}
         >
           {formattedDate}
         </div>
-      ) : (
-        <div
-          title="Today"
-          style={{
-            top: `-1px`,
-            position: 'absolute',
-            left: `-${rectOffset}px`,
-            width: `${rectSize}px`,
-            height: `${rectSize}px`,
-            backgroundColor: ThemingParameters.sapLegendColor2,
-            transform: 'rotate(45deg)'
-          }}
-        />
       )}
+      <div
+        title="Today"
+        style={{
+          top: `-1px`,
+          position: 'absolute',
+          left: `-${rectOffset}px`,
+          width: `${rectSize}px`,
+          height: `${rectSize}px`,
+          backgroundColor: ThemingParameters.sapLegendColor2,
+          transform: 'rotate(45deg)'
+        }}
+      />
     </div>
   );
 };
